@@ -16,24 +16,30 @@ export class CreateClientUseCase {
       throw new Error("Todos os campos são obrigatórios");
     }
 
-    // Verificação para garantir que o cliente não existe
-    const customer = await prismaClient.client.findFirst({
-      where: {
-        email: data.email,
-      },
-    });
+    try {
+      // Verificação para garantir que o cliente não existe
+      const existingClient = await prismaClient.client.findFirst({
+        where: {
+          email: data.email,
+        },
+      });
 
-    if (customer) {
-      throw new Error('Customer já existe');
+      if (existingClient) {
+        throw new Error('Cliente já existe');
+      }
+
+      // Criação do cliente
+      const clientCreated = await prismaClient.client.create({
+        data: {
+          ...data,
+        },
+      });
+
+      return clientCreated;
+    } catch (error) {
+      // Tratamento de erros
+      console.error("Erro ao criar cliente:", error);
+      throw new Error("Erro ao criar cliente");
     }
-
-    // Criação do cliente
-    const customerCreated = await prismaClient.client.create({
-      data: {
-        ...data,
-      },
-    });
-
-    return customerCreated;
   }
 }
