@@ -1,4 +1,4 @@
-import { Response, Request, response } from "express";
+import { Response, Request } from "express";
 import { CreateClientUseCase } from "./create-client.usecase";
 
 export class CreateClientController {
@@ -6,14 +6,14 @@ export class CreateClientController {
 
     async handle(req: Request, res: Response) {
         const useCase = new CreateClientUseCase();
+        console.log('AQUI!');
         try {
             const result = await useCase.execute(req.body);
-            return response.json(result)
-
+            console.log('AQUI2');
+            return res.json(result);
         } catch (err) {
-            return res.status(400).json(res);
-            
+            console.error("OLÁ!");
+            return res.status(400).json({ error: err });
         }
-    
     }
 }
