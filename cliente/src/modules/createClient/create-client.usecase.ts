@@ -1,4 +1,5 @@
 import { prismaClient } from "../infra/database/prismaClient"
+import { kafka } from "../infra/provider/kafka"
 
 type CreateClientRequest = {
     name: string,
@@ -6,8 +7,6 @@ type CreateClientRequest = {
     email: string,
     phone: string
 }
-
-
 export class CreateClientUseCase {
     constructor() {}
     async execute (data: CreateClientRequest) {
@@ -22,6 +21,8 @@ export class CreateClientUseCase {
                 ...data
             }
         })
+        kafka
+        
         return customerCreated
     }
 }
