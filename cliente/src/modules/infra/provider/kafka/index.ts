@@ -17,7 +17,7 @@ const run = async () => {
   await producer.connect();
 
   await producer.send({
-      topic: 'YOUR_TOPIC',
+      topic: 'clients-microservice',
       messages: [
       { value: 'Hello Kafka!' },
       ],
